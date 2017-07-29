@@ -2,7 +2,7 @@ bitcoin==1.1.42
 click==6.7
 coverage==4.4.1
 ethereum==2.0.4
-Flask==0.12.2
+git+https://github.com/pallets/flask
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
