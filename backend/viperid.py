@@ -18,7 +18,7 @@ def index():
 
 @app.route('/abi/', methods=['POST', ])
 @body_required
-def compiler_to_abi(code):
+def compiler_to_abi(code: str):
     try:
         result = compiler.mk_full_signature(code)
     except Exception as e:
@@ -33,7 +33,7 @@ def compiler_to_abi(code):
 
 @app.route('/ir/', methods=['POST', ])
 @body_required
-def compiler_to_ir(code):
+def compiler_to_ir(code: str):
     try:
         result = optimizer.optimize(parse_to_lll(code))
     except Exception as e:
@@ -48,7 +48,7 @@ def compiler_to_ir(code):
 
 @app.route('/bytecode/', methods=['POST', ])
 @body_required
-def compiler_to_bytecode(code):
+def compiler_to_bytecode(code: str):
     try:
         result = '0x' + compiler.compile(code).hex()
     except Exception as e:

@@ -27,7 +27,7 @@ def body_required(f):
     return decorated_function
 
 
-def get_error(e):
+def get_error(e: Exception):
     return {
         'message': e.msg if hasattr(e, 'msg') else e.message,
         'text': e.text if hasattr(e, 'text') else '',
