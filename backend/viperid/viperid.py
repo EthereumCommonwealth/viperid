@@ -2,8 +2,8 @@ from flask import Flask, jsonify
 from viper import compiler, optimizer
 from viper.parser import parse_to_lll
 
-from .utils import body_required, get_error
-from .version import VERSION
+from viperid.utils import body_required, get_error
+from viperid.version import VERSION
 
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ def compiler_to_abi(code: str):
     except Exception as e:
         return jsonify(
             error=get_error(e)
-        )
+        ), 400
 
     return jsonify(
         result=result
@@ -39,7 +39,7 @@ def compiler_to_ir(code: str):
     except Exception as e:
         return jsonify(
             error=get_error(e)
-        )
+        ), 400
 
     return jsonify(
         result=str(result)
@@ -54,7 +54,7 @@ def compiler_to_bytecode(code: str):
     except Exception as e:
         return jsonify(
             error=get_error(e)
-        )
+        ), 400
 
     return jsonify(
         result=result
