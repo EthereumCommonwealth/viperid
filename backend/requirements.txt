@@ -20,5 +20,4 @@ repoze.lru==0.6
 rlp==0.5.1
 scrypt==0.8.0
 serpent==1.23
-viper==0.0.1
 Werkzeug==0.12.2
