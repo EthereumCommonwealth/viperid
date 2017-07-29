@@ -3,6 +3,7 @@ click==6.7
 coverage==4.4.1
 ethereum==2.0.4
 git+https://github.com/pallets/flask
+git+https://github.com/ethereum/viper
 itsdangerous==0.24
 Jinja2==2.9.6
 MarkupSafe==1.0
