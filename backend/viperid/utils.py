@@ -29,8 +29,15 @@ def body_required(f):
 
 
 def get_error(e: Exception):
+    message = ''
+    if hasattr(e, 'msg'):
+        message = e.msg
+    elif hasattr(e, 'message'):
+        message = e.message
+    elif hasattr(e, 'args'):
+        message = e.args[0]
     return {
-        'message': e.msg if hasattr(e, 'msg') else e.message,
+        'message': message,
         'text': e.text if hasattr(e, 'text') else '',
         'line_no': e.lineno if hasattr(e, 'lineno') else '',
         'source_code': e.source_code if hasattr(e, 'source_code') else []

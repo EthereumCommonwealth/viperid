@@ -47,6 +47,4 @@ EXPOSE 5000
 
 WORKDIR /app/viperid/
 
-RUN which flask
-
 ENTRYPOINT ["/app/entrypoint.sh"]
