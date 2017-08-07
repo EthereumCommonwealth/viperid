@@ -43,6 +43,8 @@ RUN apk del .build-deps
 
 RUN chown -R viperid:viperid /app/
 
+EXPOSE 5000
+
 WORKDIR /app/viperid/
 
 RUN which flask
