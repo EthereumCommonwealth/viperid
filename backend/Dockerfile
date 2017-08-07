@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk add --no-cache python3
+RUN apk add --no-cache python3 bash
 
 ENV PYTHON_PIP_VERSION 9.0.1
 
@@ -39,7 +39,7 @@ COPY . .
 
 RUN pip3 install -r requirements.txt
 
-RUN rm -rf .build-deps
+RUN apk del .build-deps
 
 RUN chown -R viperid:viperid /app/
 
@@ -47,4 +47,4 @@ WORKDIR /app/viperid/
 
 RUN which flask
 
-CMD ["FLASK_APP=viperid.py flask", "run"]
+ENTRYPOINT ["/app/entrypoint.sh"]
