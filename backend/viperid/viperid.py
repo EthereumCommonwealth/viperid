@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from viper import compiler, optimizer
 from viper.parser import parse_to_lll
 
@@ -6,6 +7,7 @@ from viperid.utils import body_required, get_error
 from viperid.version import VERSION
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
