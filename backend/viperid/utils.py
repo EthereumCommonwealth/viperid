@@ -1,19 +1,20 @@
 from functools import wraps
-
+from werkzeug.exceptions import BadRequest
 from flask import request, jsonify
 
 
 def body_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not request.is_json:
+        try:
+            # Set Force True to allow integration easily with any frontend.
+            data = request.get_json(force=True)
+        except BadRequest:
             return jsonify(
                 error={
                     'message': 'Viperid only accept POST method with data json.'
-                }
-            )
-
-        data = request.get_json()
+                },
+            ), 400
         code = data.get('code', '')
 
         if not code:
@@ -21,7 +22,7 @@ def body_required(f):
                 error={
                     'message': 'Code field is empty'
                 }
-            )
+            ), 400
         return f(code, *args, **kwargs)
 
     return decorated_function
