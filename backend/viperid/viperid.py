@@ -89,6 +89,6 @@ def compile_all(code: str):
 
     return jsonify(
         result_abi=result_abi,
-        result_ir=result_ir,
+        result_ir=str(result_ir),
         result_bytecode=result_bytecode
     )
