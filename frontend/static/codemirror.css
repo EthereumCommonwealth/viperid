@@ -1,0 +1,13 @@
+html,
+body {
+  margin: 0;
+}
+
+.CodeMirror {
+  height: 100vh;
+  width: 80%;
+}
+
+.submitButton {
+  display: none;
+}
