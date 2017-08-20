@@ -46,7 +46,7 @@ function shouldCompile(state, code) {}
 function fetchResultAll(sourceCode) {
   return dispatch => {
     dispatch(requestAll(sourceCode));
-    return fetch('http://127.0.0.1:5000/compile/', {
+    return fetch('https://api.viperid.online/compile/', {
       method: 'POST',
       body: JSON.stringify({ code: sourceCode })
     })
