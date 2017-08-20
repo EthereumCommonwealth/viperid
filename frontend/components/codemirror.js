@@ -1,7 +1,8 @@
 import React from 'react';
-import NoSSR from 'react-no-ssr';
 import dynamic from 'next/dynamic';
+import AlertContainer from 'react-alert';
 import Loading from './loading';
+import { updateCode, compileAll } from '../actions';
 
 const CodeMirror = dynamic(import('react-codemirror2'), {
   loading: () => <Loading />,
@@ -52,8 +53,19 @@ def refund():
 let timerClick;
 
 export default class extends React.Component {
-  state = {
-    code: ''
+  alertOptions = {
+    offset: 14,
+    position: 'bottom left',
+    theme: 'light',
+    time: 3000,
+    transition: 'scale'
+  };
+
+  showAlert = () => {
+    this.msg.show('Code Compiled', {
+      time: 2000,
+      type: 'success'
+    });
   };
 
   constructor(props) {
@@ -72,15 +84,9 @@ export default class extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    fetch('https://api.viperid.online/abi/', {
-      method: 'POST',
-      body: JSON.stringify({ code: this.state.code })
-    })
-      .then(response => response.json())
-      .then(responseData => {
-        console.log(JSON.stringify(responseData['result'], undefined, 2));
-      });
-
+    const { dispatch, currentSourceCode } = this.props;
+    dispatch(compileAll(currentSourceCode));
+    this.showAlert();
     return false;
   }
 
@@ -88,9 +94,7 @@ export default class extends React.Component {
     if (timerClick) {
       clearTimeout(timerClick);
     }
-    this.setState({
-      code: editor.getValue()
-    });
+    this.props.dispatch(updateCode(editor.getValue()));
     timerClick = setTimeout(() => {
       this.refs.submitButton.click();
       timerClick = null;
@@ -98,12 +102,15 @@ export default class extends React.Component {
   }
 
   editorDidMount(editor, next) {
-    this.setState({ code: editor.getValue() });
+    this.props.dispatch(updateCode(editor.getValue()));
   }
 
   render() {
+    const { result } = this.props;
+    console.log(this.props);
     return (
       <div>
+        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
         <form onSubmit={this.handleSubmit}>
           <CodeMirror
             value={sourceCodeDemo}

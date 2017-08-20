@@ -3,11 +3,19 @@ body {
   margin: 0;
 }
 
+.wrapper {
+  display: grid;
+  grid-template-columns: 80% 20%;
+}
+
 .CodeMirror {
   height: 100vh;
-  width: 80%;
 }
 
 .submitButton {
   display: none;
+}
+
+.viperidPanel {
+  margin: 0.5rem;
 }

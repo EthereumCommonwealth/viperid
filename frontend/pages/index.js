@@ -1,15 +1,20 @@
 import React from 'react';
-import Head from '../components/head';
-import CodeMirror from '../components/codemirror';
+import { Provider } from 'react-redux';
+import IndexComponent from '../components/indexComponent';
+import configureStore from '../store';
 
-class App extends React.Component {
+const store = configureStore();
+
+class Index extends React.Component {
   render() {
     return (
       <div>
-        <CodeMirror />
+        <Provider store={store}>
+          <IndexComponent />
+        </Provider>
       </div>
     );
   }
 }
 
-export default App;
+export default Index;
