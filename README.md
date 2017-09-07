@@ -56,6 +56,22 @@ $ curl 'https://api.viperid.online/ir/' --data-binary '{"code":"funders: {sender
 
 Endpoint: https://api.viperid.online/compile/
 
+## Example with JavaScript
+
+You could make a form with a textarea called `code` and with the following JS code compile your source code to ABI.
+
+```js
+var formElement = document.getElementById('form');
+var formData = new FormData(formElement);
+fetch('https://api.viperid.online/abi/', {
+  method: "POST",
+  body: JSON.stringify({ code: formData.get("code") })
+}).then(function (response) {
+  return response.json();
+}).then(function (responseData) {
+  document.getElementById("abi").innerText = JSON.stringify(responseData["result"], undefined, 2);
+});
+```
 ## Test
 
 `python tests/tests_viperid.py`
