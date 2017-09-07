@@ -17,13 +17,13 @@ Production endpoint: `https://api.viperid.online`
 You **must** send a request to the API with a JSON data and a key called `code`.
 In code you add the Viper code preserving the spaces and break-lines.
 
+Every endpoint just accept POST method.
+
 The next examples compile the next Viper code https://github.com/ethereum/viper#code-example
 
 ### Compile to Bytecode
 
 Endpoint: https://api.viperid.online/bytecode/
-
-With Curl:
 
 ```bash
 $ curl 'https://api.viperid.online/bytecode/' --data-binary '{"code":"funders: {sender: address, value: wei_value}[num]\r\nnextFunderIndex: num\r\nbeneficiary: address\r\ndeadline: timestamp\r\ngoal: wei_value\r\nrefundIndex: num\r\ntimelimit: timedelta\r\n    \r\n# Setup global variables\r\ndef __init__(_beneficiary: address, _goal: wei_value, _timelimit: timedelta):\r\n    self.beneficiary = _beneficiary\r\n    self.deadline = block.timestamp + _timelimit\r\n    self.timelimit = _timelimit\r\n    self.goal = _goal\r\n    \r\n# Participate in this crowdfunding campaign\r\n@payable\r\ndef participate():\r\n    assert block.timestamp < self.deadline\r\n    nfi = self.nextFunderIndex\r\n    self.funders[nfi] = {sender: msg.sender, value: msg.value}\r\n    self.nextFunderIndex = nfi + 1\r\n    \r\n# Enough money was raised! Send funds to the beneficiary\r\ndef finalize():\r\n    assert block.timestamp >= self.deadline and self.balance >= self.goal\r\n    selfdestruct(self.beneficiary)\r\n    \r\n# Not enough money was raised! Refund everyone (max 30 people at a time\r\n# to avoid gas limit issues)\r\ndef refund():\r\n    assert block.timestamp >= self.deadline and self.balance < self.goal\r\n    ind = self.refundIndex\r\n    for i in range(ind, ind + 30):\r\n        if i >= self.nextFunderIndex:\r\n            self.refundIndex = self.nextFunderIndex\r\n            return\r\n        send(self.funders[i].sender, self.funders[i].value)\r\n        self.funders[i] = None\r\n    self.refundIndex = ind + 30"}' --compressed
