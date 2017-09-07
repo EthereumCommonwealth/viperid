@@ -9,6 +9,8 @@ const CodeMirror = dynamic(import('react-codemirror2'), {
   ssr: false
 });
 
+let widgets = [];
+
 const sourceCodeDemo = `funders: {sender: address, value: wei_value}[num]
 nextFunderIndex: num
 beneficiary: address
@@ -82,6 +84,31 @@ export default class extends React.Component {
     require('../mode/viper');
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // if (prevProps.error !== this.props.error) {
+    //   console.log('no error');
+    //   return;
+    // }
+    for (var i = 0; i < widgets.length; ++i) {
+      this.editor.removeLineWidget(widgets[i]);
+    }
+
+    if (this.props.result && this.props.result.message) {
+      var msg = document.createElement('div');
+      var icon = msg.appendChild(document.createElement('span'));
+      icon.innerHTML = '!!';
+      icon.className = 'lint-error-icon';
+      msg.appendChild(document.createTextNode(this.props.result.message));
+      msg.className = 'lint-error';
+      widgets.push(
+        this.editor.addLineWidget(this.props.result.line_no - 1, msg, {
+          coverGutter: false,
+          noHScroll: true
+        })
+      );
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     const { dispatch, currentSourceCode } = this.props;
@@ -98,10 +125,13 @@ export default class extends React.Component {
     timerClick = setTimeout(() => {
       this.refs.submitButton.click();
       timerClick = null;
-    }, 2000);
+    }, 1000);
   }
 
   editorDidMount(editor, next) {
+    this.editor = editor;
+    this.editor.getWrapperElement().style.fontSize = '16px';
+    this.editor.refresh();
     this.props.dispatch(updateCode(editor.getValue()));
   }
 

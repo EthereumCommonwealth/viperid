@@ -21,7 +21,7 @@ class IndexComponent extends React.Component {
 
 function mapStateToProps(state) {
   const { currentSourceCode, compileCode } = state;
-  let { isCompiling, result } = compileCode || {
+  let { isCompiling, result, error } = compileCode || {
     isCompiling: false,
     result: {}
   };
@@ -33,7 +33,8 @@ function mapStateToProps(state) {
   return {
     currentSourceCode,
     result,
-    isCompiling
+    isCompiling,
+    error
   };
 }
 

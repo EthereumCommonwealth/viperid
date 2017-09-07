@@ -1,4 +1,5 @@
 export const RECEIVE_COMPILED_CODE = 'RECEIVE_COMPILED_CODE';
+export const RECEIVE_ERROR = 'RECEIVE_ERROR';
 export const COMPILE_ALL = 'COMPILE_ALL';
 export const COMPILE_IR = 'COMPILE_IR';
 export const COMPILE_ABI = 'COMPILE_ABI';
@@ -41,6 +42,15 @@ function receiveCompiledCode(code, json) {
   };
 }
 
+function receiveError(code, json) {
+  return {
+    type: RECEIVE_ERROR,
+    code,
+    result: json,
+    receivedAt: Date.now()
+  };
+}
+
 function shouldCompile(state, code) {}
 
 function fetchResultAll(sourceCode) {
@@ -52,10 +62,14 @@ function fetchResultAll(sourceCode) {
     })
       .then(response => response.json())
       .then(responseData => {
-        dispatch(receiveCompiledCode(sourceCode, responseData));
+        if (responseData.error) {
+          dispatch(receiveError(sourceCode, responseData));
+        } else {
+          dispatch(receiveCompiledCode(sourceCode, responseData));
+        }
       })
       .catch(error => {
-        throw error;
+        dispatch(receiveError(error));
       });
   };
 }
