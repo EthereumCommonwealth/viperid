@@ -15,7 +15,8 @@ Production endpoint: `https://api.viperid.online`
 ### Compile Viper code
 
 You **must** send a request to the API with a JSON data and a key called `code`.
-In code you add the Viper code preserving the spaces and break-lines.
+
+In the code key, you add the source code, preserving the spaces and break-lines.
 
 Every endpoint just accept POST method.
 
@@ -59,4 +60,4 @@ Endpoint: https://api.viperid.online/compile/
 
 `python tests/tests_viperid.py`
 
-**NOTE: We don't storage any info about.**
+**NOTE: We don't store any data on the servers.**
